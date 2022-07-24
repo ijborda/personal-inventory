@@ -62,9 +62,7 @@ MongoClient.MongoClient.connect(CONNECTION_STR)
     // Initial render
     app.get('/', (_, res) => {
       collection.find().toArray()
-        .then(results => {
-          res.render('index.ejs', {items: results});
-        })
+        .then(results => res.render('index.ejs', {items: results}))
         .catch(err => console.log(err));
     })
 
@@ -82,12 +80,8 @@ MongoClient.MongoClient.connect(CONNECTION_STR)
         tags:          body.addTags.split(', '),
       }
       collection.insertOne(item)
-        .then(_ => {
-          res.redirect('/')
-        })
-        .catch(err => {
-          console.log(err)
-        })
+        .then(_ => res.redirect('/'))
+        .catch(err => console.log(err))
     })
 
     // Delete item
@@ -97,9 +91,7 @@ MongoClient.MongoClient.connect(CONNECTION_STR)
           fs.unlinkSync("./public/uploads/images/" + req.body.image);
           res.json(`${req.body.id} is deleted`);
         })
-        .catch(err => {
-          console.log(err);
-        })
+        .catch(err => console.log(err))
     })
 
     // Update item
