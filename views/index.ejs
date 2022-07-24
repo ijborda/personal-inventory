@@ -40,7 +40,7 @@
           </thead>
           <tbody>
             <% for (var i = 0; i < items.length; i++) { %>
-              <tr>
+              <tr id="id-<%= items[i]._id %>">
                 <th scope="row">1</th>
                 <td>
                   <div class="img-holder">
@@ -55,8 +55,8 @@
                 <td>Explicabo</td>
                 <td><%= items[i].tags.join(', ') %></td>
                 <td>
-                  <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateItem">Edit</button>
-                  <button type="button" class="btn btn-danger">Delete</button>
+                  <button type="button" item-id="<%= items[i]._id %>" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateItem">Edit</button>
+                  <button type="button" item-id="<%= items[i]._id %>" class="btn btn-danger deleteBtn">Delete</button>
                 </td>
               </tr>
             <% } %>   
@@ -74,47 +74,49 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div class="mb-3">
-              <div class="img-holder m-auto">
-                <img class="img-control" src="https://picsum.photos/seed/2/200/150" alt="Image">
+            <form id="addItemForm" action="/addItem" method="POST" enctype="multipart/form-data">
+              <div class="mb-3">
+                <div class="img-holder m-auto">
+                  <img class="img-control" src="https://picsum.photos/seed/2/200/150" alt="Image">
+                </div>
               </div>
-            </div>
-            <div class="mb-3">
-              <label for="formFile" class="form-label">Image</label>
-              <input class="form-control" type="file" id="formFile">
-            </div>
-            <div class="mb-3">
-              <label for="textInput" class="form-label">Name</label>
-              <input class="form-control" type="text" id="textInput" >
-            </div>
-            <div class="mb-3">
-              <label for="textInput" class="form-label">Brand</label>
-              <input class="form-control" type="text" id="textInput" >
-            </div>
-            <div class="mb-3">
-              <label for="textInput" class="form-label">Price (PHP)</label>
-              <input class="form-control" type="number" id="textInput" >
-            </div>
-            <div class="mb-3">
-              <label for="textInput" class="form-label">Date Acquired</label>
-              <input class="form-control" type="date" id="textInput" >
-            </div>
-            <div class="mb-3">
-              <label for="textInput" class="form-label">Location Acquired</label>
-              <input class="form-control" type="text" id="textInput">
-            </div>
-            <div class="mb-3">
-              <label for="textInput" class="form-label">Condition</label>
-              <input class="form-control" type="text" id="textInput" >
-            </div>
-            <div class="mb-3">
-              <label for="textInput" class="form-label">Tags</label>
-              <input class="form-control" type="text" id="textInput" >
-            </div>
+              <div class="mb-3">
+                <label for="addImage" class="form-label">Image</label>
+                <input class="form-control" type="file" name="addImage" id="addImage">
+              </div>
+              <div class="mb-3">
+                <label for="addName" class="form-label">Name</label>
+                <input class="form-control" type="text" name="addName" id="addName">
+              </div>
+              <div class="mb-3">
+                <label for="addBrand" class="form-label">Brand</label>
+                <input class="form-control" type="text" name="addBrand" id="addBrand">
+              </div>
+              <div class="mb-3">
+                <label for="addPrice" class="form-label">Price (PHP)</label>
+                <input class="form-control" type="number" name="addPrice" id="addPrice">
+              </div>
+              <div class="mb-3">
+                <label for="addDateAcquired" class="form-label">Date Acquired</label>
+                <input class="form-control" type="date" name="addDateAcquired" id="addDateAcquired">
+              </div>
+              <div class="mb-3">
+                <label for="addLocationAcquired" class="form-label">Location Acquired</label>
+                <input class="form-control" type="text" name="addLocationAcquired" id="addLocationAcquired">
+              </div>
+              <div class="mb-3">
+                <label for="addCondition" class="form-label">Condition</label>
+                <input class="form-control" type="text" name="addCondition" id="addCondition">
+              </div>
+              <div class="mb-3">
+                <label for="addTags" class="form-label">Tags</label>
+                <input class="form-control" type="text" name="addTags" id="addTags">
+              </div>
+            </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Submit</button>
+            <input type="submit" form="addItemForm" value="Add Item" class="btn btn-primary" data-bs-dismiss="modal">
           </div>
         </div>
       </div>
@@ -174,6 +176,9 @@
         </div>
       </div>
     </div>
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <!-- Custom JS -->
+		<script type="text/javascript" src="/main.js"></script>
   </body>
 </html>

@@ -11,6 +11,8 @@
   width: 200px;
   height: 150px;
 }
+
 .img-control {
   max-height: 100%;
+  max-width: 100%;
 }
