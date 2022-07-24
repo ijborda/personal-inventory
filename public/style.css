@@ -1,0 +1,16 @@
+.d-flex {
+  gap: 10px;
+}
+
+.controls > button {
+  min-width: 100px;
+  height: fit-content;
+}
+
+.img-holder {
+  width: 200px;
+  height: 150px;
+}
+.img-control {
+  max-height: 100%;
+}
