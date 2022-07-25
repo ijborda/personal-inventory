@@ -51,7 +51,7 @@
                 <td><%= items[i].brand %></td>
                 <td>Php <%= items[i].price %></td>
                 <td><%= items[i].dateAcquired %></td>
-                <td><%= items[i].placeAcquired %></td>
+                <td><%= items[i].locationAcquired %></td>
                 <td><%= items[i].condition %></td>
                 <td><%= items[i].tags.join(', ') %></td>
                 <td>
@@ -187,7 +187,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <input required type="submit" value="Edit Item" class="btn btn-primary" id="updateSubmit">
+            <input required type="submit" value="Confirm" class="btn btn-warning" id="updateSubmit">
           </div>
         </div>
       </div>

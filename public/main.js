@@ -1,9 +1,26 @@
 class Session {
 
   constructor() {
+    
+    // Actions
     this.deleteBtns = Array.from(document.querySelectorAll('.deleteBtn'));
     this.updateBtns = Array.from(document.querySelectorAll('.updateBtn'));
+
+    // Submits | Update
     this.updateSbmt = document.querySelector('#updateSubmit');
+    
+    // Fields | Update
+    this.updateId = document.querySelector('#updateId')               
+    this.updateImagePreview = document.querySelector('#updateImagePreview')
+    this.updateImage = document.querySelector('#updateImage')
+    this.updateName = document.querySelector('#updateName')
+    this.updateBrand = document.querySelector('#updateBrand')
+    this.updatePrice = document.querySelector('#updatePrice')
+    this.updateDateAcquired = document.querySelector('#updateDateAcquired') 
+    this.updateLocationAcquired = document.querySelector('#updateLocationAcquired')
+    this.updateCondition = document.querySelector('#updateCondition') 
+    this.updateTags = document.querySelector('#updateTags')       
+
   }
 
   inits() {
@@ -33,26 +50,24 @@ class Session {
   }
 
   updateInit() {
-    this.updateBtns.forEach(a => {
-      a.addEventListener('click', this.updateRender);
-    });
-    this.updateSbmt.addEventListener('click', this.updateAction);
+    this.updateBtns.forEach(a => a.addEventListener('click', this.updateReview.bind(this)));
+    this.updateSbmt.addEventListener('click', this.updateAction.bind(this));
   }
 
-  async updateRender(e) {
+  async updateReview(e) {
     try {
       const id = e.target.getAttribute('item-id');
       const data = await (await fetch (`/item/${id}`)).json();
       const {_id, image, name, brand, price, dateAcquired, locationAcquired, condition, tags} = data[0];
-      document.querySelector('#updateId').value                 = _id;
-      document.querySelector('#updateImagePreview').src         = `uploads/images/${image}`;
-      document.querySelector('#updateName').value               = name;
-      document.querySelector('#updateBrand').value              = brand;
-      document.querySelector('#updatePrice').value              = price;
-      document.querySelector('#updateDateAcquired').value       = dateAcquired;
-      document.querySelector('#updateLocationAcquired').value   = locationAcquired;
-      document.querySelector('#updateCondition').value          = condition;
-      document.querySelector('#updateTags').value               = tags;
+      this.updateId.value                 = _id;
+      this.updateImagePreview.src         = `uploads/images/${image}`;
+      this.updateName.value               = name;
+      this.updateBrand.value              = brand;
+      this.updatePrice.value              = price;
+      this.updateDateAcquired.value       = dateAcquired;
+      this.updateLocationAcquired.value   = locationAcquired;
+      this.updateCondition.value          = condition;
+      this.updateTags.value               = tags;
     } catch(err) {
       console.log(err);
     }
@@ -60,16 +75,16 @@ class Session {
 
   updateAction(e) {
     const formData  = new FormData();
-    formData.append('id',             document.querySelector('#updateId').value)
-    formData.append('imageNew',       document.querySelector('#updateImage').files[0])
-    formData.append('name',           document.querySelector('#updateName').value)
-    formData.append('brand',          document.querySelector('#updateBrand').value)
-    formData.append('price',          document.querySelector('#updatePrice').value)
-    formData.append('dateAcquired',   document.querySelector('#updateDateAcquired').value)
-    formData.append('placeAcquired',  document.querySelector('#updateLocationAcquired').value)
-    formData.append('condition',      document.querySelector('#updateCondition').value)
-    formData.append('tags',           document.querySelector('#updateTags').value)
-    formData.append('imageDelete',    (document.querySelector('#updateImagePreview').src).replace(/^.*[\\\/]/, ''))
+    formData.append('id',                document.querySelector('#updateId').value)
+    formData.append('imageNew',          document.querySelector('#updateImage').files[0])
+    formData.append('name',              document.querySelector('#updateName').value)
+    formData.append('brand',             document.querySelector('#updateBrand').value)
+    formData.append('price',             document.querySelector('#updatePrice').value)
+    formData.append('dateAcquired',      document.querySelector('#updateDateAcquired').value)
+    formData.append('locationAcquired',  document.querySelector('#updateLocationAcquired').value)
+    formData.append('condition',         document.querySelector('#updateCondition').value)
+    formData.append('tags',              document.querySelector('#updateTags').value)
+    formData.append('imageDelete',       (document.querySelector('#updateImagePreview').src).replace(/^.*[\\\/]/, ''))
     fetch('/updateItem', {
       method: 'put',
       body: formData,
@@ -86,25 +101,3 @@ class Session {
 
 const session = new Session();
 session.inits();
-
-
-// const updateButtons = document.querySelectorAll('.update');
-// Array.from(updateButtons).forEach(updateBtn => {
-//   updateBtn.addEventListener('click', showUpdateModal);
-// });
-// const updateItemBg = document.querySelector('.updateItem .bg');
-// updateItemBg.addEventListener('click', hideUpdateModal)
-
-// async function showUpdateModal(e) {
-//   const title = e.target.querySelector('span').innerHTML;
-//   const updateItem = document.querySelector('.updateItem');
-//   updateItem.classList.add('active');
-//   const response = await fetch (`/item/${title}`);
-//   const data = await response.json();
-
-//   if (!(data[0].tags.length === 1 && data[0].tags[0] === null)) {
-//     data[0].tags.forEach(tag => {
-//       document.querySelector(`.updateItem #update${tag}`).checked = true;
-//     })
-//   } 
-// }
