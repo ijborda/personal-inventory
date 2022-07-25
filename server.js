@@ -26,10 +26,10 @@ const CL_NAME = process.env.CL_NAME;
 // ========================
 const storage = multer.diskStorage({
   destination: function(request, file, callback) {
-    callback(null, 'public/uploads/images'); // destination folder
+    callback(null, 'public'); // destination folder
   },
   filename: function(request, file, callback) {
-    callback(null, Date.now() + file.originalname); // filenaming
+    callback(null, 'uploads/images/' + Date.now() + file.originalname); // filenaming
   }
 });
 const upload = multer({

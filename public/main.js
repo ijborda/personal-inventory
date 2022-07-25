@@ -60,7 +60,7 @@ class Session {
       const data = await (await fetch (`/item/${id}`)).json();
       const {_id, image, name, brand, price, dateAcquired, locationAcquired, condition, tags} = data[0];
       this.updateId.value                 = _id;
-      this.updateImagePreview.src         = `uploads/images/${image}`;
+      this.updateImagePreview.src         = image;
       this.updateName.value               = name;
       this.updateBrand.value              = brand;
       this.updatePrice.value              = price;
