@@ -75,16 +75,16 @@ class Session {
 
   updateAction(e) {
     const formData  = new FormData();
-    formData.append('id',                document.querySelector('#updateId').value)
-    formData.append('imageNew',          document.querySelector('#updateImage').files[0])
-    formData.append('name',              document.querySelector('#updateName').value)
-    formData.append('brand',             document.querySelector('#updateBrand').value)
-    formData.append('price',             document.querySelector('#updatePrice').value)
-    formData.append('dateAcquired',      document.querySelector('#updateDateAcquired').value)
-    formData.append('locationAcquired',  document.querySelector('#updateLocationAcquired').value)
-    formData.append('condition',         document.querySelector('#updateCondition').value)
-    formData.append('tags',              document.querySelector('#updateTags').value)
-    formData.append('imageDelete',       (document.querySelector('#updateImagePreview').src).replace(/^.*[\\\/]/, ''))
+    formData.append('id',                this.updateId.value)
+    formData.append('imageNew',          this.updateImage.files[0])
+    formData.append('name',              this.updateName.value)
+    formData.append('brand',             this.updateBrand.value)
+    formData.append('price',             this.updatePrice.value)
+    formData.append('dateAcquired',      this.updateDateAcquired.value)
+    formData.append('locationAcquired',  this.updateLocationAcquired.value)
+    formData.append('condition',         this.updateCondition.value)
+    formData.append('tags',              this.updateTags.value)
+    formData.append('imageDelete',       (this.updateImagePreview.src).replace(/^.*[\\\/]/, ''))
     fetch('/updateItem', {
       method: 'put',
       body: formData,
