@@ -70,14 +70,14 @@ MongoClient.MongoClient.connect(CONNECTION_STR)
     app.post('/addItem', upload.single('addImage'), (req, res) => {
       const body = req.body;
       const item = {
-        image:         req.file.filename,
-        title:         body.addName,
-        brand:         body.addBrand,
-        price:         body.addPrice,
-        dateAcquired:  body.addDateAcquired,
-        placeAcquired: body.addLocationAcquired,
-        condition:     body.addCondition,
-        tags:          body.addTags.split(', '),
+        image:            req.file.filename,
+        name:             body.addName,
+        brand:            body.addBrand,
+        price:            body.addPrice,
+        dateAcquired:     body.addDateAcquired,
+        locationAcquired: body.addLocationAcquired,
+        condition:        body.addCondition,
+        tags:             body.addTags.split(', '),
       }
       collection.insertOne(item)
         .then(_ => res.redirect('/'))
@@ -95,8 +95,35 @@ MongoClient.MongoClient.connect(CONNECTION_STR)
     })
 
     // Update item
+    app.put('/updateItem', upload.single('imageNew'), (req, res) => {
+      const body = req.body;
+      let updateObj =  {
+        name:             body.name,
+        brand:            body.brand,
+        price:            body.price,
+        dateAcquired:     body.dateAcquired,
+        locationAcquired: body.locationAcquired,
+        condition:        body.condition,
+        tags:             body.tags.split(', '),
+      }
+      if (req.file) {
+        fs.unlinkSync("./public/uploads/images/" + req.body.imageDelete);
+        updateObj.image = req.file.filename
+      };
+      collection.findOneAndUpdate(
+        {_id: ObjectId(req.body.id)}, 
+        {$set:  updateObj}
+        )
+        .then (_ => res.json(`${req.body.id} is updated`))
+        .catch(err => console.log(err))
+    })
 
     // API - Get item information
+    app.get('/item/:id', (req, res) => {
+      collection.find({_id: ObjectId(req.params.id)}).toArray()
+        .then(results => res.json(results))
+        .catch(err => console.log(err))
+    })
 
   })
   .catch(err => console.log(err));

@@ -47,7 +47,7 @@
                     <img class="img-control" src="uploads/images/<%= items[i].image %>" alt="Image">
                   </div>
                 </td>
-                <td><%= items[i].title %></td>
+                <td><%= items[i].name %></td>
                 <td><%= items[i].brand %></td>
                 <td>Php <%= items[i].price %></td>
                 <td><%= items[i].dateAcquired %></td>
@@ -55,7 +55,7 @@
                 <td><%= items[i].condition %></td>
                 <td><%= items[i].tags.join(', ') %></td>
                 <td>
-                  <button type="button" item-id="<%= items[i]._id %>" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateItem">Edit</button>
+                  <button type="button" item-id="<%= items[i]._id %>" class="btn btn-warning updateBtn" data-bs-toggle="modal" data-bs-target="#updateItem">Edit</button>
                   <button type="button" item-id="<%= items[i]._id %>" class="btn btn-danger deleteBtn">Delete</button>
                 </td>
               </tr>
@@ -77,7 +77,7 @@
             <form id="addItemForm" action="/addItem" method="POST" enctype="multipart/form-data">
               <div class="mb-3">
                 <div class="img-holder m-auto">
-                  <img class="img-control" src="https://via.placeholder.com/200x150?text=Upload+Image" alt="Image">
+                  <img class="img-control" src="https://via.placeholder.com/200x150?text=Upload+Image" alt="Image" id="addImagePreview">
                 </div>
               </div>
               <div class="mb-3">
@@ -137,47 +137,57 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
+            <div class="mb-3" style="display:none">
+              <label for="updateId" class="form-label">ID</label>
+              <input class="form-control" type="text" name="updateId" id="updateId" disabled>
+            </div>
             <div class="mb-3">
               <div class="img-holder m-auto">
-                <img class="img-control" src="https://picsum.photos/seed/3/200/150" alt="Image">
+                <img class="img-control" src="https://picsum.photos/seed/3/200/150" alt="Image" id="updateImagePreview">
               </div>
             </div>
             <div class="mb-3">
-              <label for="formFile" class="form-label">Image</label>
-              <input class="form-control" type="file" id="formFile" required>
+              <label for="updateImage" class="form-label">Image</label>
+              <input class="form-control" type="file" name="updateImage" id="updateImage" required>
             </div>
             <div class="mb-3">
-              <label for="textInput" class="form-label">Name</label>
-              <input class="form-control" type="text" id="textInput" required>
+              <label for="updateName" class="form-label">Name</label>
+              <input class="form-control" type="text" name="updateName" id="updateName" required>
             </div>
             <div class="mb-3">
-              <label for="textInput" class="form-label">Brand</label>
-              <input class="form-control" type="text" id="textInput" required>
+              <label for="updateBrand" class="form-label">Brand</label>
+              <input class="form-control" type="text" name="updateBrand" id="updateBrand" required>
             </div>
             <div class="mb-3">
-              <label for="textInput" class="form-label">Price (PHP)</label>
-              <input class="form-control" type="number" id="textInput" required>
+              <label for="updatePrice" class="form-label">Price (PHP)</label>
+              <input class="form-control" type="number" name="updatePrice" id="updatePrice" required>
             </div>
             <div class="mb-3">
-              <label for="textInput" class="form-label">Date Acquired</label>
-              <input class="form-control" type="date" id="textInput" required>
+              <label for="updateDateAcquired" class="form-label">Date Acquired</label>
+              <input class="form-control" type="date" name="updateDateAcquired" id="updateDateAcquired" required>
             </div>
             <div class="mb-3">
-              <label for="textInput" class="form-label">Location Acquired</label>
-              <input class="form-control" type="text" id="textInput">
+              <label for="updateLocationAcquired" class="form-label">Location Acquired</label>
+              <input class="form-control" type="text" name="updateLocationAcquired" id="updateLocationAcquired">
             </div>
             <div class="mb-3">
-              <label for="textInput" class="form-label">Condition</label>
-              <input class="form-control" type="text" id="textInput" required>
+              <label for="updateCondition" class="form-label">Condition</label>
+              <select required class="form-select" name="updateCondition" id="updateCondition">
+                <option selected>Open this select menu</option>
+                <option value="excellent">Excellent</option>
+                <option value="good">Good</option>
+                <option value="broken">Broken</option>
+                <option value="gifted">Gifted</option>
+              </select>
             </div>
             <div class="mb-3">
-              <label for="textInput" class="form-label">Tags</label>
-              <input class="form-control" type="text" id="textInput" required>
+              <label for="updateTags" class="form-label">Tags</label>
+              <input class="form-control" type="text" name="updateTags" id="updateTags" required>
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-warning">Confirm</button>
+            <input required type="submit" value="Edit Item" class="btn btn-primary" id="updateSubmit">
           </div>
         </div>
       </div>
