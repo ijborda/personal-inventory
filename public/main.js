@@ -27,7 +27,7 @@ class Session {
   inits() {
     this.deleteInit();
     this.updateInit();
-    this.imagePreview();
+    // this.imagePreview();
   }
 
   deleteInit() {
@@ -95,15 +95,14 @@ class Session {
       .catch(err => console.log(err))
   }
 
-  imagePreview() {
-    this.updateImage.onchange = _ => {
-      const [file] = this.updateImage.files;
-      if (file) {
-        this.updateImagePreview.src = URL.createObjectURL(file);
-      }
-    } 
-
-  }
+  // imagePreview() {
+  //   this.updateImage.onchange = _ => {
+  //     const [file] = this.updateImage.files;
+  //     if (file) {
+  //       this.updateImagePreview.src = URL.createObjectURL(file);
+  //     }
+  //   } 
+  // }
 
 }
 
