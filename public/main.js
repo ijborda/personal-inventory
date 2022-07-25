@@ -89,12 +89,8 @@ class Session {
       method: 'put',
       body: formData,
     })
-      .then(res => {
-        window.location.reload(true);
-      })
-      .catch(err => {
-        console.log(err)
-      })
+      .then(res => window.location.reload(true))
+      .catch(err => console.log(err))
   }
 
 }
