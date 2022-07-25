@@ -9,9 +9,8 @@ class Session {
     // Submits | Update
     this.updateSbmt = document.querySelector('#updateSubmit');
     
-    // Fields | Update
+    // Form Fields | Update
     this.updateId = document.querySelector('#updateId')               
-    this.updateImagePreview = document.querySelector('#updateImagePreview')
     this.updateImage = document.querySelector('#updateImage')
     this.updateName = document.querySelector('#updateName')
     this.updateBrand = document.querySelector('#updateBrand')
@@ -21,11 +20,14 @@ class Session {
     this.updateCondition = document.querySelector('#updateCondition') 
     this.updateTags = document.querySelector('#updateTags')       
 
+    // Image preview
+    this.updateImagePreview = document.querySelector('#updateImagePreview')
   }
 
   inits() {
     this.deleteInit();
     this.updateInit();
+    this.imagePreview();
   }
 
   deleteInit() {
@@ -91,6 +93,16 @@ class Session {
     })
       .then(res => window.location.reload(true))
       .catch(err => console.log(err))
+  }
+
+  imagePreview() {
+    this.updateImage.onchange = _ => {
+      const [file] = this.updateImage.files;
+      if (file) {
+        this.updateImagePreview.src = URL.createObjectURL(file);
+      }
+    } 
+
   }
 
 }
