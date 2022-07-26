@@ -60,38 +60,47 @@ MongoClient.MongoClient.connect(CONNECTION_STR)
     // ========================
     
     // Initial render
-    app.get('/', (_, res) => {
-      collection.find().toArray()
-        .then(results => res.render('index.ejs', {items: results}))
-        .catch(err => console.log(err));
+    app.get('/', async (_, res) => {
+      try {
+        const results = await collection.find().toArray();
+        res.render('index.ejs', {items: results});
+      } catch (err) {
+        console.log(err);
+      }
     })
 
     // Create new item
-    app.post('/addItem', upload.single('addImage'), (req, res) => {
-      const body = req.body;
-      const item = {
-        image:            req.file.filename,
-        name:             body.addName,
-        brand:            body.addBrand,
-        price:            body.addPrice,
-        dateAcquired:     body.addDateAcquired,
-        locationAcquired: body.addLocationAcquired,
-        condition:        body.addCondition,
-        tags:             body.addTags.split(', '),
+    app.post('/addItem', upload.single('addImage'), async (req, res) => {
+      try {
+        const body = req.body;
+        const item = {
+          image:            req.file.filename,
+          name:             body.addName,
+          brand:            body.addBrand,
+          price:            body.addPrice,
+          dateAcquired:     body.addDateAcquired,
+          locationAcquired: body.addLocationAcquired,
+          condition:        body.addCondition,
+          tags:             body.addTags.split(', '),
+        }
+        await collection.insertOne(item)
+        res.redirect('/')
+      } catch (err) {
+        console.log(err);
       }
-      collection.insertOne(item)
-        .then(_ => res.redirect('/'))
-        .catch(err => console.log(err))
     })
 
     // Delete item
-    app.delete('/deleteItem', (req, res) => {
-      collection.deleteOne({_id: ObjectId(req.body.id)})
-        .then (_ => {
-          // fs.unlinkSync("./public/uploads/images/" + req.body.image);
-          res.json(`${req.body.id} is deleted`);
-        })
-        .catch(err => console.log(err))
+    app.delete('/deleteItem', async (req, res) => {
+      try {
+        const body = req.body;
+        const imageOld = (await collection.find({_id: ObjectId(body.id)}).toArray())[0].image;
+        fs.unlinkSync("./public/" + imageOld);
+        await collection.deleteOne({_id: ObjectId(body.id)})
+        res.json(`${body.id} is deleted`);
+      } catch {
+        console.log(err);
+      }
     })
 
     // Update item
@@ -123,10 +132,13 @@ MongoClient.MongoClient.connect(CONNECTION_STR)
     })
 
     // API - Get item information
-    app.get('/item/:id', (req, res) => {
-      collection.find({_id: ObjectId(req.params.id)}).toArray()
-        .then(results => res.json(results))
-        .catch(err => console.log(err))
+    app.get('/item/:id', async (req, res) => {
+      try {
+        const results = await collection.find({_id: ObjectId(req.params.id)}).toArray()
+        res.json(results)
+      } catch {
+        console.log(err);
+      }
     })
 
   })

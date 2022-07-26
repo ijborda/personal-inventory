@@ -36,19 +36,18 @@ class Session {
     });
   }
 
-  deleteAction(e) {
-    const id = e.target.getAttribute('item-id');
-    const img = (document.querySelector(`#id-${id} img`).src).replace(/^.*[\\\/]/, '');
-    fetch('/deleteItem', {
+  async deleteAction(e) {
+    try {
+      const id = e.target.getAttribute('item-id');
+      await fetch('/deleteItem', {
         method: 'delete',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          id: id,
-          image: img
-        })
-    })
-    .then(_ => window.location.reload(true))
-    .catch(err => console.log(err))
+        body: JSON.stringify({id: id})
+      })
+      window.location.reload(true)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   updateInit() {
@@ -75,23 +74,26 @@ class Session {
     }
   }
 
-  updateAction() {
-    const formData  = new FormData();
-    formData.append('id',                this.updateId.value)
-    formData.append('imageNew',          this.updateImage.files[0])
-    formData.append('name',              this.updateName.value)
-    formData.append('brand',             this.updateBrand.value)
-    formData.append('price',             this.updatePrice.value)
-    formData.append('dateAcquired',      this.updateDateAcquired.value)
-    formData.append('locationAcquired',  this.updateLocationAcquired.value)
-    formData.append('condition',         this.updateCondition.value)
-    formData.append('tags',              this.updateTags.value)
-    fetch('/updateItem', {
-      method: 'put',
-      body: formData,
-    })
-      .then(_ => window.location.reload(true))
-      .catch(err => console.log(err))
+  async updateAction() {
+    try {
+      const formData  = new FormData();
+      formData.append('id',                this.updateId.value)
+      formData.append('imageNew',          this.updateImage.files[0])
+      formData.append('name',              this.updateName.value)
+      formData.append('brand',             this.updateBrand.value)
+      formData.append('price',             this.updatePrice.value)
+      formData.append('dateAcquired',      this.updateDateAcquired.value)
+      formData.append('locationAcquired',  this.updateLocationAcquired.value)
+      formData.append('condition',         this.updateCondition.value)
+      formData.append('tags',              this.updateTags.value)
+      await fetch('/updateItem', {
+        method: 'put',
+        body: formData
+      })
+      window.location.reload(true)
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   imagePreview() {
