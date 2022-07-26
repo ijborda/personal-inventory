@@ -29,7 +29,7 @@ const storage = multer.diskStorage({
     callback(null, 'public'); // destination folder
   },
   filename: function(request, file, callback) {
-    callback(null, 'uploads/images/' + Date.now() + file.originalname); // filenaming
+    callback(null, ('uploads/images/' + Date.now() + file.originalname).replace(/ /g, '')); // filenaming
   }
 });
 const upload = multer({
