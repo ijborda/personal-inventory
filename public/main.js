@@ -6,36 +6,30 @@ class Session {
     this.deleteBtns = Array.from(document.querySelectorAll('.deleteBtn'));
     this.updateBtns = Array.from(document.querySelectorAll('.updateBtn'));
 
-    // Submits | Update
-    this.updateSbmt = document.querySelector('#updateSubmit');
-    
-    // Form Fields | Update
-    this.updateId = document.querySelector('#updateId')               
-    this.updateImage = document.querySelector('#updateImage')
-    this.updateName = document.querySelector('#updateName')
-    this.updateBrand = document.querySelector('#updateBrand')
-    this.updatePrice = document.querySelector('#updatePrice')
-    this.updateDateAcquired = document.querySelector('#updateDateAcquired') 
-    this.updateLocationAcquired = document.querySelector('#updateLocationAcquired')
-    this.updateCondition = document.querySelector('#updateCondition') 
-    this.updateTags = document.querySelector('#updateTags')       
-
     // Image preview
     this.updateImagePreview = document.querySelector('#updateImagePreview')
-
+    
+    // Forms | Update    
     this.updateForm = document.querySelector('#updateItemForm')
+
+    // Submits | Update
+    this.updateSbmt = document.querySelector('#updateSubmit');
+
   }
 
   inits() {
+
+    // Core
     this.deleteInit();
     this.updateInit();
+
+    // UI/UX 
     this.imagePreview();
+
   }
 
   deleteInit() {
-    this.deleteBtns.forEach(a => {
-      a.addEventListener('click', this.deleteAction);
-    });
+    this.deleteBtns.forEach(a => a.addEventListener('click', this.deleteAction));
   }
 
   async deleteAction(e) {

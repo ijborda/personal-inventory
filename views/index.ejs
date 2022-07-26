@@ -52,7 +52,7 @@
                 <td>Php <%= items[i].price %></td>
                 <td><%= items[i].dateAcquired %></td>
                 <td><%= items[i].locationAcquired %></td>
-                <td><%= items[i].condition %></td>
+                <td><%= items[i].condition.charAt(0).toUpperCase() + items[i].condition.slice(1) %></td>
                 <td><%= items[i].tags.join(', ') %></td>
                 <td>
                   <button type="button" item-id="<%= items[i]._id %>" class="btn btn-warning updateBtn" data-bs-toggle="modal" data-bs-target="#updateItem">Edit</button>
