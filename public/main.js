@@ -61,16 +61,15 @@ class Session {
     try {
       const id = e.target.getAttribute('item-id');
       const data = await (await fetch (`/item/${id}`)).json();
-      const {_id, image, name, brand, price, dateAcquired, locationAcquired, condition, tags} = data[0];
-      this.updateImagePreview.src         = image;
-      this.updateId.value                 = _id;
-      this.updateName.value               = name;
-      this.updateBrand.value              = brand;
-      this.updatePrice.value              = price;
-      this.updateDateAcquired.value       = dateAcquired;
-      this.updateLocationAcquired.value   = locationAcquired;
-      this.updateCondition.value          = condition;
-      this.updateTags.value               = tags;
+      Array.from(this.updateForm.elements).forEach(a => {
+        let name = a.id.replace(/update/, '').smallFirst();
+        if (a.type === 'file') {
+          this.updateImagePreview.src = data[0]["image"];;
+        } else {
+          name = name === 'id' ? '_id' : name;
+          a.value = data[0][name];
+        }
+      })
     } catch(err) {
       console.log(err);
     }
