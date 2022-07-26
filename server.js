@@ -75,13 +75,13 @@ MongoClient.MongoClient.connect(CONNECTION_STR)
         const body = req.body;
         const item = {
           image:            req.file.filename,
-          name:             body.addName,
           brand:            body.addBrand,
           price:            body.addPrice,
           dateAcquired:     body.addDateAcquired,
           locationAcquired: body.addLocationAcquired,
           condition:        body.addCondition,
           tags:             body.addTags.split(', '),
+          notes:            body.addNotes,
         }
         await collection.insertOne(item)
         res.redirect('/')
@@ -108,13 +108,13 @@ MongoClient.MongoClient.connect(CONNECTION_STR)
       try {
         const body = req.body;
         let updateObj =  {
-          name:             body.updateName,
           brand:            body.updateBrand,
           price:            body.updatePrice,
           dateAcquired:     body.updateDateAcquired,
           locationAcquired: body.updateLocationAcquired,
           condition:        body.updateCondition,
           tags:             body.updateTags.split(','),
+          notes:            body.updateNotes,
         }
         if (req.file) {
           const imageOld = (await collection.find({_id: ObjectId(body.updateId)}).toArray())[0].image;

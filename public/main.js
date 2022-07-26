@@ -6,13 +6,12 @@ class Session {
     this.deleteBtns = Array.from(document.querySelectorAll('.deleteBtn'));
     this.updateBtns = Array.from(document.querySelectorAll('.updateBtn'));
 
-    // Image preview
-    this.updateImagePreview = document.querySelector('#updateImagePreview')
+    // Image
+    this.updateImagePreview = document.querySelector('#updateImagePreview');
+    this.updateImage = document.querySelector('#updateImage');
     
-    // Forms | Update    
-    this.updateForm = document.querySelector('#updateItemForm')
-
-    // Submits | Update
+    // Update    
+    this.updateForm = document.querySelector('#updateItemForm');
     this.updateSbmt = document.querySelector('#updateSubmit');
 
   }
@@ -40,9 +39,9 @@ class Session {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({id: id})
       })
-      window.location.reload(true)
+      window.location.reload(true);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   }
 
@@ -55,6 +54,7 @@ class Session {
     try {
       const id = e.target.getAttribute('item-id');
       const data = await (await fetch (`/item/${id}`)).json();
+      data[0]['tags'] = data[0]['tags'].join(', ');
       Array.from(this.updateForm.elements).forEach(a => {
         let name = a.id.replace(/update/, '').smallFirst();
         if (a.type === 'file') {

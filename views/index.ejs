@@ -28,13 +28,13 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col">Image</th>
-              <th scope="col">Name</th>
               <th scope="col">Brand</th>
               <th scope="col">Price</th>
               <th scope="col">Date Acquired</th>
               <th scope="col">Location Acquired</th>
               <th scope="col">Condition</th>
               <th scope="col">Tags</th>
+              <th scope="col">Notes</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
@@ -47,13 +47,13 @@
                     <img class="img-control" src="<%= items[i].image %>" alt="Image">
                   </div>
                 </td>
-                <td><%= items[i].name %></td>
                 <td><%= items[i].brand %></td>
                 <td>Php <%= items[i].price %></td>
                 <td><%= items[i].dateAcquired %></td>
                 <td><%= items[i].locationAcquired %></td>
                 <td><%= items[i].condition.charAt(0).toUpperCase() + items[i].condition.slice(1) %></td>
                 <td><%= items[i].tags.join(', ') %></td>
+                <td><%= items[i].notes %></td>
                 <td>
                   <button type="button" item-id="<%= items[i]._id %>" class="btn btn-warning updateBtn" data-bs-toggle="modal" data-bs-target="#updateItem">Edit</button>
                   <button type="button" item-id="<%= items[i]._id %>" class="btn btn-danger deleteBtn">Delete</button>
@@ -85,10 +85,6 @@
                 <input required class="form-control" type="file" name="addImage" id="addImage">
               </div>
               <div class="mb-3">
-                <label for="addName" class="form-label">Name</label>
-                <input required class="form-control" type="text" name="addName" id="addName">
-              </div>
-              <div class="mb-3">
                 <label for="addBrand" class="form-label">Brand</label>
                 <input required class="form-control" type="text" name="addBrand" id="addBrand">
               </div>
@@ -116,13 +112,17 @@
               </div>
               <div class="mb-3">
                 <label for="addTags" class="form-label">Tags</label>
-                <input required class="form-control" type="text" name="addTags" id="addTags">
+                <input required class="form-control" type="text" name="addTags" id="addTags" placeholder="Tag1, Tag2, Tag3">
+              </div>
+              <div class="mb-3">
+                <label for="addNotes" class="form-label">Notes</label>
+                <input class="form-control" type="textarea" name="addNotes" id="addNotes">
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <input required type="submit" form="addItemForm" value="Add Item" class="btn btn-primary">
+            <input type="submit" form="addItemForm" value="Add Item" class="btn btn-primary">
           </div>
         </div>
       </div>
@@ -140,7 +140,7 @@
             <form id="updateItemForm">
               <div class="mb-3" style="display:none">
                 <label for="updateId" class="form-label">ID</label>
-                <input class="form-control" type="text" name="updateId" id="updateId" disabled>
+                <input required class="form-control" type="text" name="updateId" id="updateId" disabled>
               </div>
               <div class="mb-3">
                 <div class="img-holder m-auto">
@@ -149,27 +149,23 @@
               </div>
               <div class="mb-3">
                 <label for="updateImage" class="form-label">Image</label>
-                <input class="form-control" type="file" name="updateImage" id="updateImage" required>
-              </div>
-              <div class="mb-3">
-                <label for="updateName" class="form-label">Name</label>
-                <input class="form-control" type="text" name="updateName" id="updateName" required>
+                <input required class="form-control" type="file" name="updateImage" id="updateImage">
               </div>
               <div class="mb-3">
                 <label for="updateBrand" class="form-label">Brand</label>
-                <input class="form-control" type="text" name="updateBrand" id="updateBrand" required>
+                <input required class="form-control" type="text" name="updateBrand" id="updateBrand">
               </div>
               <div class="mb-3">
                 <label for="updatePrice" class="form-label">Price (PHP)</label>
-                <input class="form-control" type="number" name="updatePrice" id="updatePrice" required>
+                <input required class="form-control" type="number" name="updatePrice" id="updatePrice">
               </div>
               <div class="mb-3">
                 <label for="updateDateAcquired" class="form-label">Date Acquired</label>
-                <input class="form-control" type="date" name="updateDateAcquired" id="updateDateAcquired" required>
+                <input required class="form-control" type="date" name="updateDateAcquired" id="updateDateAcquired">
               </div>
               <div class="mb-3">
                 <label for="updateLocationAcquired" class="form-label">Location Acquired</label>
-                <input class="form-control" type="text" name="updateLocationAcquired" id="updateLocationAcquired">
+                <input required class="form-control" type="text" name="updateLocationAcquired" id="updateLocationAcquired">
               </div>
               <div class="mb-3">
                 <label for="updateCondition" class="form-label">Condition</label>
@@ -183,13 +179,17 @@
               </div>
               <div class="mb-3">
                 <label for="updateTags" class="form-label">Tags</label>
-                <input class="form-control" type="text" name="updateTags" id="updateTags" required>
+                <input class="form-control" type="text" name="updateTags" id="updateTags">
+              </div>
+              <div class="mb-3">
+                <label for="updateNotes" class="form-label">Notes</label>
+                <input class="form-control" type="text" name="updateNotes" id="updateNotes">
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <input required type="submit" value="Confirm" class="btn btn-warning" id="updateSubmit">
+            <input type="submit" value="Confirm" class="btn btn-warning" id="updateSubmit">
           </div>
         </div>
       </div>
