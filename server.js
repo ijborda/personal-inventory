@@ -104,28 +104,28 @@ MongoClient.MongoClient.connect(CONNECTION_STR)
     })
 
     // Update item
-    app.put('/updateItem', upload.single('image'), async (req, res) => {
+    app.put('/updateItem', upload.single('updateImage'), async (req, res) => {
       try {
         const body = req.body;
         let updateObj =  {
-          name:             body.name,
-          brand:            body.brand,
-          price:            body.price,
-          dateAcquired:     body.dateAcquired,
-          locationAcquired: body.locationAcquired,
-          condition:        body.condition,
-          tags:             body.tags.split(','),
+          name:             body.updateName,
+          brand:            body.updateBrand,
+          price:            body.updatePrice,
+          dateAcquired:     body.updateDateAcquired,
+          locationAcquired: body.updateLocationAcquired,
+          condition:        body.updateCondition,
+          tags:             body.updateTags.split(','),
         }
         if (req.file) {
-          const imageOld = (await collection.find({_id: ObjectId(body.id)}).toArray())[0].image;
+          const imageOld = (await collection.find({_id: ObjectId(body.updateId)}).toArray())[0].image;
           fs.unlinkSync("./public/" + imageOld);
           updateObj.image = req.file.filename;
         };
         await collection.findOneAndUpdate(
-          {_id: ObjectId(body.id)}, 
+          {_id: ObjectId(body.updateId)}, 
           {$set:  updateObj}
         )
-        res.json(`${body.id} is updated`)
+        res.json(`${body.updateId} is updated`)
       } catch (err) {
         console.log(err);
       }

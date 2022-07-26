@@ -79,7 +79,7 @@ class Session {
     try {
       const formData  = new FormData();
       Array.from(this.updateForm.elements).forEach(a => {
-        let name = a.id.replace(/update/, '').smallFirst();
+        let name = a.id;
         if (a.type === 'file') {
           formData.append(name, a.files[0]);
         } else {
