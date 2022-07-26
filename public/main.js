@@ -27,7 +27,7 @@ class Session {
   inits() {
     this.deleteInit();
     this.updateInit();
-    // this.imagePreview();
+    this.imagePreview();
   }
 
   deleteInit() {
@@ -75,7 +75,7 @@ class Session {
     }
   }
 
-  updateAction(e) {
+  updateAction() {
     const formData  = new FormData();
     formData.append('id',                this.updateId.value)
     formData.append('imageNew',          this.updateImage.files[0])
@@ -86,23 +86,22 @@ class Session {
     formData.append('locationAcquired',  this.updateLocationAcquired.value)
     formData.append('condition',         this.updateCondition.value)
     formData.append('tags',              this.updateTags.value)
-    formData.append('imageDelete',       (this.updateImagePreview.src).replace(/^.*[\\\/]/, ''))
     fetch('/updateItem', {
       method: 'put',
       body: formData,
     })
-      .then(res => window.location.reload(true))
+      .then(_ => window.location.reload(true))
       .catch(err => console.log(err))
   }
 
-  // imagePreview() {
-  //   this.updateImage.onchange = _ => {
-  //     const [file] = this.updateImage.files;
-  //     if (file) {
-  //       this.updateImagePreview.src = URL.createObjectURL(file);
-  //     }
-  //   } 
-  // }
+  imagePreview() {
+    this.updateImage.onchange = _ => {
+      const [file] = this.updateImage.files;
+      if (file) {
+        this.updateImagePreview.src = URL.createObjectURL(file);
+      }
+    } 
+  }
 
 }
 

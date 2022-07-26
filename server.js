@@ -88,34 +88,38 @@ MongoClient.MongoClient.connect(CONNECTION_STR)
     app.delete('/deleteItem', (req, res) => {
       collection.deleteOne({_id: ObjectId(req.body.id)})
         .then (_ => {
-          fs.unlinkSync("./public/uploads/images/" + req.body.image);
+          // fs.unlinkSync("./public/uploads/images/" + req.body.image);
           res.json(`${req.body.id} is deleted`);
         })
         .catch(err => console.log(err))
     })
 
     // Update item
-    app.put('/updateItem', upload.single('imageNew'), (req, res) => {
-      const body = req.body;
-      let updateObj =  {
-        name:             body.name,
-        brand:            body.brand,
-        price:            body.price,
-        dateAcquired:     body.dateAcquired,
-        locationAcquired: body.locationAcquired,
-        condition:        body.condition,
-        tags:             body.tags.split(', '),
-      }
-      if (req.file) {
-        fs.unlinkSync("./public/uploads/images/" + req.body.imageDelete);
-        updateObj.image = req.file.filename
-      };
-      collection.findOneAndUpdate(
-        {_id: ObjectId(req.body.id)}, 
-        {$set:  updateObj}
+    app.put('/updateItem', upload.single('imageNew'), async (req, res) => {
+      try {
+        const body = req.body;
+        let updateObj =  {
+          name:             body.name,
+          brand:            body.brand,
+          price:            body.price,
+          dateAcquired:     body.dateAcquired,
+          locationAcquired: body.locationAcquired,
+          condition:        body.condition,
+          tags:             body.tags.split(', '),
+        }
+        if (req.file) {
+          const imageOld = (await collection.find({_id: ObjectId(body.id)}).toArray())[0].image;
+          fs.unlinkSync("./public/" + imageOld);
+          updateObj.image = req.file.filename
+        };
+        await collection.findOneAndUpdate(
+          {_id: ObjectId(body.id)}, 
+          {$set:  updateObj}
         )
-        .then (_ => res.json(`${req.body.id} is updated`))
-        .catch(err => console.log(err))
+        res.json(`${body.id} is updated`)
+      } catch (err) {
+        console.log(err);
+      }
     })
 
     // API - Get item information
