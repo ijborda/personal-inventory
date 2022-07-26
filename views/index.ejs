@@ -137,53 +137,55 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div class="mb-3" style="display:none">
-              <label for="updateId" class="form-label">ID</label>
-              <input class="form-control" type="text" name="updateId" id="updateId" disabled>
-            </div>
-            <div class="mb-3">
-              <div class="img-holder m-auto">
-                <img class="img-control" src="https://picsum.photos/seed/3/200/150" alt="Image" id="updateImagePreview">
+            <form id="updateItemForm">
+              <div class="mb-3" style="display:none">
+                <label for="updateId" class="form-label">ID</label>
+                <input class="form-control" type="text" name="updateId" id="updateId" disabled>
               </div>
-            </div>
-            <div class="mb-3">
-              <label for="updateImage" class="form-label">Image</label>
-              <input class="form-control" type="file" name="updateImage" id="updateImage" required>
-            </div>
-            <div class="mb-3">
-              <label for="updateName" class="form-label">Name</label>
-              <input class="form-control" type="text" name="updateName" id="updateName" required>
-            </div>
-            <div class="mb-3">
-              <label for="updateBrand" class="form-label">Brand</label>
-              <input class="form-control" type="text" name="updateBrand" id="updateBrand" required>
-            </div>
-            <div class="mb-3">
-              <label for="updatePrice" class="form-label">Price (PHP)</label>
-              <input class="form-control" type="number" name="updatePrice" id="updatePrice" required>
-            </div>
-            <div class="mb-3">
-              <label for="updateDateAcquired" class="form-label">Date Acquired</label>
-              <input class="form-control" type="date" name="updateDateAcquired" id="updateDateAcquired" required>
-            </div>
-            <div class="mb-3">
-              <label for="updateLocationAcquired" class="form-label">Location Acquired</label>
-              <input class="form-control" type="text" name="updateLocationAcquired" id="updateLocationAcquired">
-            </div>
-            <div class="mb-3">
-              <label for="updateCondition" class="form-label">Condition</label>
-              <select required class="form-select" name="updateCondition" id="updateCondition">
-                <option selected>Open this select menu</option>
-                <option value="excellent">Excellent</option>
-                <option value="good">Good</option>
-                <option value="broken">Broken</option>
-                <option value="gifted">Gifted</option>
-              </select>
-            </div>
-            <div class="mb-3">
-              <label for="updateTags" class="form-label">Tags</label>
-              <input class="form-control" type="text" name="updateTags" id="updateTags" required>
-            </div>
+              <div class="mb-3">
+                <div class="img-holder m-auto">
+                  <img class="img-control" src="https://picsum.photos/seed/3/200/150" alt="Image" id="updateImagePreview">
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="updateImage" class="form-label">Image</label>
+                <input class="form-control" type="file" name="updateImage" id="updateImage" required>
+              </div>
+              <div class="mb-3">
+                <label for="updateName" class="form-label">Name</label>
+                <input class="form-control" type="text" name="updateName" id="updateName" required>
+              </div>
+              <div class="mb-3">
+                <label for="updateBrand" class="form-label">Brand</label>
+                <input class="form-control" type="text" name="updateBrand" id="updateBrand" required>
+              </div>
+              <div class="mb-3">
+                <label for="updatePrice" class="form-label">Price (PHP)</label>
+                <input class="form-control" type="number" name="updatePrice" id="updatePrice" required>
+              </div>
+              <div class="mb-3">
+                <label for="updateDateAcquired" class="form-label">Date Acquired</label>
+                <input class="form-control" type="date" name="updateDateAcquired" id="updateDateAcquired" required>
+              </div>
+              <div class="mb-3">
+                <label for="updateLocationAcquired" class="form-label">Location Acquired</label>
+                <input class="form-control" type="text" name="updateLocationAcquired" id="updateLocationAcquired">
+              </div>
+              <div class="mb-3">
+                <label for="updateCondition" class="form-label">Condition</label>
+                <select required class="form-select" name="updateCondition" id="updateCondition">
+                  <option selected>Open this select menu</option>
+                  <option value="excellent">Excellent</option>
+                  <option value="good">Good</option>
+                  <option value="broken">Broken</option>
+                  <option value="gifted">Gifted</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="updateTags" class="form-label">Tags</label>
+                <input class="form-control" type="text" name="updateTags" id="updateTags" required>
+              </div>
+            </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

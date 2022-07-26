@@ -22,6 +22,8 @@ class Session {
 
     // Image preview
     this.updateImagePreview = document.querySelector('#updateImagePreview')
+
+    this.updateForm = document.querySelector('#updateItemForm')
   }
 
   inits() {
@@ -60,8 +62,8 @@ class Session {
       const id = e.target.getAttribute('item-id');
       const data = await (await fetch (`/item/${id}`)).json();
       const {_id, image, name, brand, price, dateAcquired, locationAcquired, condition, tags} = data[0];
-      this.updateId.value                 = _id;
       this.updateImagePreview.src         = image;
+      this.updateId.value                 = _id;
       this.updateName.value               = name;
       this.updateBrand.value              = brand;
       this.updatePrice.value              = price;
@@ -77,20 +79,19 @@ class Session {
   async updateAction() {
     try {
       const formData  = new FormData();
-      formData.append('id',                this.updateId.value)
-      formData.append('imageNew',          this.updateImage.files[0])
-      formData.append('name',              this.updateName.value)
-      formData.append('brand',             this.updateBrand.value)
-      formData.append('price',             this.updatePrice.value)
-      formData.append('dateAcquired',      this.updateDateAcquired.value)
-      formData.append('locationAcquired',  this.updateLocationAcquired.value)
-      formData.append('condition',         this.updateCondition.value)
-      formData.append('tags',              this.updateTags.value)
+      Array.from(this.updateForm.elements).forEach(a => {
+        let name = a.id.replace(/update/, '').smallFirst();
+        if (a.type === 'file') {
+          formData.append(name, a.files[0]);
+        } else {
+          formData.append(name, a.value);
+        }
+      }) 
       await fetch('/updateItem', {
         method: 'put',
         body: formData
       })
-      window.location.reload(true)
+      window.location.reload(true);
     } catch (err) {
       console.log(err);
     }
@@ -109,3 +110,8 @@ class Session {
 
 const session = new Session();
 session.inits();
+
+
+String.prototype.smallFirst = function() {
+  return this.charAt(0).toLowerCase() + this.slice(1);
+}
