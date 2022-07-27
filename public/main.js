@@ -6,7 +6,9 @@ class Session {
     this.deleteBtns = Array.from(document.querySelectorAll('.deleteBtn'));
     this.updateBtns = Array.from(document.querySelectorAll('.updateBtn'));
 
-    // Image
+    // Image Preview
+    this.addImagePreview = document.querySelector('#addImagePreview');
+    this.addImage = document.querySelector('#addImage');
     this.updateImagePreview = document.querySelector('#updateImagePreview');
     this.updateImage = document.querySelector('#updateImage');
     
@@ -91,12 +93,16 @@ class Session {
   }
 
   imagePreview() {
-    this.updateImage.onchange = _ => {
-      const [file] = this.updateImage.files;
-      if (file) {
-        this.updateImagePreview.src = URL.createObjectURL(file);
-      }
-    } 
+    const previewSets = [[this.updateImage, this.updateImagePreview],
+                         [this.addImage, this.addImagePreview]]
+    previewSets.forEach(([input, preview]) => {
+      input.onchange = () => {
+        const [file] = input.files;
+        if (file) {
+          preview.src = URL.createObjectURL(file);
+        }
+      } 
+    })
   }
 
 }
