@@ -35,13 +35,32 @@ class Session {
 
   async deleteAction(e) {
     try {
-      const id = e.target.getAttribute('item-id');
-      await fetch('/deleteItem', {
-        method: 'delete',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({id: id})
+      let result = await Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Yes, delete it!'
       })
-      window.location.reload(true);
+      if (result.isConfirmed) {
+        const id = e.target.getAttribute('item-id');
+        await fetch('/deleteItem', {
+          method: 'delete',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({id: id})
+        })
+        await Swal.fire({
+          icon: 'success',
+          title: 'Deleted!',
+          text: `Item has been deleted.`,
+          html: 'Site will automatically reload.',
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        window.location.reload(true);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -114,3 +133,4 @@ session.inits();
 String.prototype.smallFirst = function() {
   return this.charAt(0).toLowerCase() + this.slice(1);
 }
+
