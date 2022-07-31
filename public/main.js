@@ -31,6 +31,9 @@ class Session {
     this.imagePreview();
     this.imageView();
 
+    // Functionalities
+    this.searchAction();
+
   }
 
   deleteInit() {
@@ -79,14 +82,14 @@ class Session {
     try {
       const id = e.target.getAttribute('item-id');
       const data = await (await fetch (`/item/${id}`)).json();
-      data[0]['tags'] = data[0]['tags'].join(', ');
+      data['tags'] = data['tags'].join(', ');
       Array.from(this.updateForm.elements).forEach(a => {
         let name = a.id.replace(/update/, '').smallFirst();
         if (a.type === 'file') {
-          this.updateImagePreview.src = data[0]["image"];;
+          this.updateImagePreview.src = data["image"];;
         } else {
           name = name === 'id' ? '_id' : name;
-          a.value = data[0][name];
+          a.value = data[name];
         }
       })
     } catch(err) {
@@ -147,6 +150,34 @@ class Session {
     document.querySelector('.image-view-holder img').src = src;
   }
 
+  searchAction() {
+    $(document).ready(function () {
+      $('#search').autocomplete({
+        // Define the source of the autocomplete results
+        source: async function(req, res) {
+          let data = await (await fetch(`/search?query=${req.term}`)).json();
+          console.log(data);
+          let results = data.map(result => {
+            return {
+              label: result.brand,
+              value: result.brand,
+              id: result._id,
+            }
+          })
+          res(results)
+        }, 
+        // Minimum Length
+        minLength: 2,
+        // Define the action when a result is selected
+        select: async function(_, ui) {
+          const id = ui.item.id;
+          console.log(id);
+          const data = await (await fetch (`/item/${id}`)).json();
+          console.log(data);
+        }
+      })
+    })
+  }
 }
 
 const session = new Session();

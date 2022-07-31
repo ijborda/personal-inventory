@@ -2,12 +2,12 @@
 // Modules
 // ========================
 const express = require('express');
-const MongoClient = require('mongodb');
-const ObjectId = require('mongodb').ObjectId;
+const {MongoClient, ObjectId} = require('mongodb');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const cors = require('cors');
 const app = express();
 
 
@@ -43,13 +43,13 @@ const upload = multer({
 // ========================
 let db;
 let collection;
-MongoClient.MongoClient.connect(CONNECTION_STR)
+MongoClient.connect(CONNECTION_STR)
   .then(client => {
     console.log('Connected to database');
     db = client.db(DB_NAME);
     collection = db.collection(CL_NAME);
   })
-  .catch(err => console.log(err));
+  .catch(err => res.status(500).send({ message: err.message }));
 
 
 // ========================
@@ -59,6 +59,7 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
+app.use(cors());
 
 
 // ========================
@@ -71,7 +72,7 @@ app.get('/', async (_, res) => {
     const results = await collection.find().toArray();
     res.render('index.ejs', {items: results});
   } catch (err) {
-    console.log(err);
+    res.status(500).send({ message: err.message });
   }
 })
 
@@ -92,7 +93,7 @@ app.post('/addItem', upload.single('addImage'), async (req, res) => {
     await collection.insertOne(item)
     res.redirect('/')
   } catch (err) {
-    console.log(err);
+    res.status(500).send({ message: err.message });
   }
 })
 
@@ -105,7 +106,7 @@ app.delete('/deleteItem', async (req, res) => {
     await collection.deleteOne({_id: ObjectId(body.id)})
     res.json(`${body.id} is deleted`);
   } catch {
-    console.log(err);
+    res.status(500).send({ message: err.message });
   }
 })
 
@@ -133,17 +134,41 @@ app.put('/updateItem', upload.single('updateImage'), async (req, res) => {
     )
     res.json(`${body.updateId} is updated`)
   } catch (err) {
-    console.log(err);
+    res.status(500).send({ message: err.message });
   }
 })
+
+// Get autocomplete results
+app.get('/search', async (req, res) => {
+	try {
+		let result = await collection.aggregate([
+				{
+					$search: {
+            index: "search",
+						autocomplete: {
+							query: `${req.query.query}`,
+							path: 'brand',
+							fuzzy: {
+								maxEdits: 2, // num of characters allowed to be wrong
+								prefixLength: 2, // minimum num of characters to allow autocomplete
+							},
+						},
+					},
+				},
+			]).toArray();
+		res.send(result);
+	} catch (err) {
+		res.status(500).send({ message: err.message });
+	}
+});
 
 // API - Get item information
 app.get('/item/:id', async (req, res) => {
   try {
-    const results = await collection.find({_id: ObjectId(req.params.id)}).toArray()
-    res.json(results)
+    const result = await collection.findOne({_id: ObjectId(req.params.id)})
+    res.json(result)
   } catch {
-    console.log(err);
+    res.status(500).send({ message: err.message });
   }
 })
 
