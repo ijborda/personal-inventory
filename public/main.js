@@ -16,6 +16,9 @@ class Session {
     this.updateForm = document.querySelector('#updateItemForm');
     this.updateSbmt = document.querySelector('#updateSubmit');
 
+    // Image View
+    this.imageViewBtns=  Array.from(document.querySelectorAll('.imageViewBtn'));
+
   }
 
   inits() {
@@ -26,6 +29,7 @@ class Session {
 
     // UI/UX 
     this.imagePreview();
+    this.imageView();
 
   }
 
@@ -105,6 +109,14 @@ class Session {
         method: 'put',
         body: formData
       })
+      await Swal.fire({
+        icon: 'success',
+        title: 'Updated!',
+        text: `Item has been updated.`,
+        html: 'Site will automatically reload.',
+        showConfirmButton: false,
+        timer: 2000,
+      });
       window.location.reload(true);
     } catch (err) {
       console.log(err);
@@ -122,6 +134,17 @@ class Session {
         }
       } 
     })
+  }
+
+  imageView() {
+    this.imageViewBtns.forEach(a => a.addEventListener('click', this.imageViewAction.bind(this)));
+  }
+
+  imageViewAction(e) {
+    const id = e.target.getAttribute('item-id');
+    console.log(e.target)
+    let src = document.querySelector(`#id-${id} img`).getAttribute('src');
+    document.querySelector('.image-view-holder img').src = src;
   }
 
 }

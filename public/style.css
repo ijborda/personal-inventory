@@ -58,3 +58,21 @@
       aspect-ratio: 1/1;
       cursor: pointer;
     }
+
+/* Image in Table */
+table .img-control {
+  cursor: pointer;
+}
+
+.image-view-holder {
+  text-align: center;
+}
+
+.image-view-holder img {
+  max-width: 100%;
+  height: auto;
+}
+
+#imageView .modal-dialog {
+  max-width: 60vw;
+}
